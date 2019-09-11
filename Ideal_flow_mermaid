@@ -1,0 +1,38 @@
+sequenceDiagram
+
+participant Consumer Bank
+participant Consumer
+participant Merchant
+participant Acquirer
+participant Merchant Bank
+
+Consumer -->> Merchant: Pay with iDeal
+Note right of Acquirer: Merchant details @ <br/> Acquirer:<br/>legal + trade name, <br/>IBAN, BIC
+Merchant ->>Acquirer: Post DirectoryRequest
+Note right of Acquirer: Directory response <br/>2sec or 7.6 timeout
+Acquirer ->> Merchant: DirectoryResponse
+Note over Acquirer, Merchant: Country, BIC, Issuers (Banklist)
+Consumer -->> Merchant: Select Consumer Bank
+Merchant ->> +Acquirer: TransactionRequest
+Note over Merchant, Acquirer: Consumer bank, amount, merchantID <br/>purchase id, description<br/> merchantReturnURL, expiration, <br/> entrance code
+Note right of Acquirer: optional: expir.=deflt<br/> 30 min time for <br/>consumer to authorise <br/>payment
+Acquirer ->> Consumer Bank: Request for Redirect
+Consumer Bank ->> Acquirer: Request for Redirect Response
+Note over Acquirer, Merchant: issuerAuthenticationURL
+Note right of Acquirer: Transaction response <br/>2sec or 7.6 timeout
+Acquirer ->> -Merchant: TransactionResponse
+Note over Merchant, Acquirer: (iDeal) TransactionID, purchase id <br/>issuerAuthenticationURL
+Merchant ->> Consumer Bank: Redirect to issuerAuthenticationURL
+Consumer ->> Consumer Bank: Authorisation
+Consumer Bank ->>Consumer: Confirmation
+Note right of Acquirer: no confirmation to <br/>Acquirer/merchant
+Note over Consumer, Merchant: Consumers clicks "continue" for <br/>return url
+Consumer Bank ->> Merchant: redirect to merchantReturnURL
+Note right of Merchant: entrance code and <br/>transaction id <br/>appended to url as <br/> parameters ec/trxid
+Merchant ->> +Acquirer: StatusRequest
+Note right of Acquirer: Mandatory status <br/> request after redirect or <br/> transaction timeout <br/> default 30 min
+Acquirer ->> Consumer Bank: Query for StatusRequest
+Note right of Acquirer: Query response <br/>2sec or 7.6 timeout
+Consumer Bank ->> Acquirer: Query response
+Acquirer ->> -Merchant:  StatusRequest Response
+Note right of Acquirer: bank initiates PAC and <br/>not PAIN like PQ
