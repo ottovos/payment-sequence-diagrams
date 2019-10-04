@@ -1,0 +1,36 @@
+sequenceDiagram
+participant C as Consumer
+participant PQ as Payconiq
+participant P as Pay.nl
+participant M as Merchant
+participant B as Bank
+activate C
+C-->>M: Check out and pay button
+M->>P: Create payment
+activate P
+P->>P: Create payment
+P->>M: Generic QR code
+deactivate P
+C-->>M: Scan QR
+C->>PQ: Identify (UUID)
+activate PQ
+deactivate C
+PQ->>PQ: Process url
+PQ->>P: Post TransactionRequest
+P->>PQ: Response TransactionRequest (payment
+details)
+activate C
+PQ->>C: payment details
+C->>C: Enter pin
+C->>PQ: confirm
+PQ->>B: initiate money transfer
+activate B
+B->>PQ: confirm money transfer
+deactivate B
+PQ->>C: confirm payment
+PQ->>P: confirm payment
+Activate P
+P->>M: confirm payment
+deactivate P
+deactivate C
+deactivate PQ
