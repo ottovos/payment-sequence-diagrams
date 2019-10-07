@@ -1,1 +1,43 @@
-PENDING INFORMATION ON ACTUAL FLOW
+sequenceDiagram
+
+participant Consumer Bank
+participant Consumer
+participant Merchant
+participant Sofort
+participant Merchant Bank = Handelsbank
+
+
+
+Consumer -->> Merchant: Selects Online Bank Transfer
+Merchant ->>Sofort: Post payment request (API step 1)
+Note left of Sofort: {Amount, Currency, <br/> reason (=remit info), <br/> success/abort/notify url}
+Sofort->>Merchant: Respone payment request (API step 2)
+Note left of Sofort: {transaction ID, <br/>consumer payment form url <br/> to Sofort domain}
+Merchant -->>Consumer: Redirect to consumer payment form url
+Note right of Consumer: Consumer browser with <br/> session with Sofort
+Consumer -->> Sofort: Form data country, bank, IBAN, PIN, TAN
+    alt abort/time-out
+        Sofort->>Merchant: redirect to abort url
+        Merchant-->> Consumer: present abort page
+
+    else success
+        Sofort->>Merchant: redirect to success url
+        Merchant-->> Consumer: present success page
+            opt Request payment data
+                 Merchant->>Sofort:Request for payment data (API step4)
+                 Note left of Sofort: Merchant can request <br/> payment data (API step4)<br/> based on success url <br/>instead of notify callback
+                 Sofort ->> Merchant: Response to request for payment data (API step5)
+            end 
+        Sofort->>Merchant: POST to notify url (API step 3)
+        note right of Sofort: notify url can be part <br/> of API step 1 body or <br/>configured
+        Merchant->>Sofort: Response to notify Request
+        Note over Merchant, Sofort: not documented in Sofort API...assumption
+        Merchant->>Sofort: Request for payment data (API step4)
+        Note left of Merchant: by payment ID  for 1 or <br/> by date/time for multiple
+        Sofort ->> Merchant: Response to request for payment data (API step5)
+        Note left of Sofort: Sofort can only confirm <br/>funds received <br/>if merchant<br/>has Handelsbank.
+    end
+
+
+
+
