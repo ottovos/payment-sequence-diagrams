@@ -1,13 +1,17 @@
 # payment-sequence-diagrams
-Collection of sequence diagrams for payment using mermaid
+Collection of sequence diagrams for payment using mermaid you can use and adopt the way you like. Why Mermaid? Easy to adjust and adopt.
+
 
 Source of data:
 The purpose of the sequence diagrams is to get a quick understanding on how payment brands operate functionally. 
 All data is based on publicly available infromation on the internet.
 
 How to Visualize mermaid sequence diagrams:
-- In Atom install the Mermaid preview
+- In Atom install the Mermaid preview packge (https://atom.io/packages/atom-mermaid)
 - In Confluence install mermaid Macro
+
+Mermaid:
+- https://mermaidjs.github.io/#/README
 
 
 
