@@ -1,0 +1,22 @@
+sequenceDiagram
+
+participant Consumer_Ease2Pay_app
+participant petrolstation_Integrator
+participant Ease2Pay
+
+
+Consumer_Ease2Pay_app-->> Consumer_Ease2Pay_app: Top up with iDeal
+Note right of Consumer_Ease2Pay_app: Maximum of 150
+Consumer_Ease2Pay_app-->> Consumer_Ease2Pay_app:Open appended
+
+
+Note right of Consumer_Ease2Pay_app: Select: petrol station,<br/>number, amount <br/> press PAY
+Consumer_Ease2Pay_app ->> Ease2Pay: Payment details <br/>station, number, amount
+Ease2Pay ->> Consumer_Ease2Pay_app: Success
+Ease2Pay ->> petrolstation_Integrator: OK
+Consumer_Ease2Pay_app -->> petrolstation_Integrator: Fuel <br/>up to limit of approved amount
+Consumer_Ease2Pay_app -->> petrolstation_Integrator: Returns back nozzle
+petrolstation_Integrator ->> Ease2Pay: Final amount
+alt spend amount lower than approved amount
+Ease2Pay ->> Consumer_Ease2Pay_app: Pay back of difference
+end
