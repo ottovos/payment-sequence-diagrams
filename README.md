@@ -25,3 +25,6 @@ Synopsis:
 - XML content type
 - Merchant defines abort and succes url 
 - Usually a merchant will use an acquirer/PSP. In the sequence diagram the position of this PSS would be Between the merchant and Sofort (actually FinTecSystems) 
+
+# Ease2pay
+Ease2pay heeft MyOrder overgenomen van RAbo en faciliteert Rabo app voor zelf afrekenen aan de pomp
