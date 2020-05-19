@@ -3,11 +3,11 @@ sequenceDiagram
 
 participant Payee 
 %%/Beneficiary/Creditor
-%%Originator/Debtor
 participant Payee’s RTP SP
 participant Inter Service Provider
 participant Payer's RTP SP
 participant Payer
+%%Originator/Debtor
 
 Payer -->> Payee:Identify<br/>{IBAN, Payer ID, PAyer's RTP SP ID}<br/>
 Payee ->> Payee’s RTP SP: Request to Pay
