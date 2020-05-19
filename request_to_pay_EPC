@@ -1,7 +1,7 @@
 sequenceDiagram
 %%4 corner see: https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/request-pay-specifications-standardisation-framework
 
-participant Payee 
+participant Payee
 %%/Beneficiary/Creditor
 participant Payee’s RTP SP
 participant Inter Service Provider
@@ -10,9 +10,27 @@ participant Payer
 %%Originator/Debtor
 
 Payer -->> Payee:Identify<br/>{IBAN, Payer ID, PAyer's RTP SP ID}<br/>
-Payee ->> Payee’s RTP SP: Request to Pay
-Payee’s RTP SP ->> Payer's RTP SP: Request to Pay
-Payer's RTP SP ->> Payer: Request to Pay
-Payer ->> Payer's RTP SP: Response (accept/refuse)
-Payer's RTP SP ->> Payee’s RTP SP: Response
-Payee’s RTP SP ->> Payee: Response
+Payee ->> Payee’s RTP SP: pain013 Request to Pay
+Payee’s RTP SP ->> Payer's RTP SP: pain013 Request to Pay
+Payer's RTP SP ->> Payer: pain013 pain014 Request to Pay
+Payer ->> Payer's RTP SP: pain014 Response (accept/refuse)
+Payer's RTP SP ->> Payee’s RTP SP:pain014 Response
+Payee’s RTP SP ->> Payee: pain014 Response
+
+opt Cancel RTP
+        Payee->>Payee’s RTP SP: Cancel RTP
+        note right of Payee: e.g.wrong Amount
+        Payee’s RTP SP->>Payee’s RTP SP: Validate
+        Payee’s RTP SP->> Payer's RTP SP: Cancel request
+        Payer's RTP SP ->> Payee’s RTP SP: Acknowledge
+        alt Decline Cancel-request
+        Payer's RTP SP ->> Payee’s RTP SP: Decline
+        end
+        Payer's RTP SP ->> Payer: Inform Cancel RTP
+    end
+opt Technical Inquiry Request
+Payee --> Payee’s RTP SP: Inquiry request
+Payee’s RTP SP ->> Payer's RTP SP: Inquiry request
+Payer's RTP SP ->> Payee’s RTP SP: Inquiry Response
+Payee’s RTP SP --> Payee: Response
+end
