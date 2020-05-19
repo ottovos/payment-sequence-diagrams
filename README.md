@@ -17,7 +17,7 @@ How to Visualize mermaid sequence diagrams:
 - https://mermaidjs.github.io/#/README
 
 
-# Infor per payment method:
+# Info per payment method:
 Sofort:
 Documentation: https://www.sofort.com/integrationCenter-eng-DE/content/view/full/2513/
 Synopsis:
