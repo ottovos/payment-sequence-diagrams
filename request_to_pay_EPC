@@ -1,0 +1,18 @@
+sequenceDiagram
+%%4 corner see: https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/request-pay-specifications-standardisation-framework
+
+participant Payee 
+%%/Beneficiary/Creditor
+%%Originator/Debtor
+participant Payee’s RTP SP
+participant Inter Service Provider
+participant Payer's RTP SP
+participant Payer
+
+Payer -->> Payee:Identify<br/>{IBAN, Payer ID, PAyer's RTP SP ID}<br/>
+Payee ->> Payee’s RTP SP: Request to Pay
+Payee’s RTP SP ->> Payer's RTP SP: Request to Pay
+Payer's RTP SP ->> Payer: Request to Pay
+Payer ->> Payer's RTP SP: Response (accept/refuse)
+Payer's RTP SP ->> Payee’s RTP SP: Response
+Payee’s RTP SP ->> Payee: Response
