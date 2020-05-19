@@ -28,3 +28,9 @@ Synopsis:
 
 # Ease2pay
 Ease2pay heeft MyOrder overgenomen van RAbo en faciliteert Rabo app voor zelf afrekenen aan de pomp
+
+# RTP
+New request to pay from the European Payment Council
+https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/request-pay-specifications-standardisation-framework
+
+
